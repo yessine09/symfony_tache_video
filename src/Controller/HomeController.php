@@ -45,12 +45,7 @@ class HomeController extends AbstractController
         $videos = $this->getDoctrine()->getRepository(Video::class)->findBy(['panier' => 1]);
         $panier = $this->getDoctrine()->getRepository(Panier::class)->findOneBy(['id' => 1]);
         $this->getDoctrine()->getManager()->flush();
-        return $this->render('panier/index.html.twig', [
-            'videos' => $videos,
-            'somme' => $panier->getSomme(),
-            'w' => 0,
-            'k' => 0
-        ]);
+        return $this->redirectToRoute('video_index');
     }
 
         /**

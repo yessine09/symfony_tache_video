@@ -54,11 +54,12 @@
 						<th>Source</th>
 						<th>Paye</th>
 						<th>Prix</th>
-						<th>note</th>
+						
 						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
+				{% if videos != NULL %}
 					{% for video in videos %}
 						<tr>
 
@@ -66,62 +67,29 @@
 							<td>{{ video.source }}</td>
 							<td>{{ video.paye ? 'Oui' : 'Non' }}</td>
 							<td>{{ video.prix }}</td>
+						
 							<td>
-								{% if video.note != 0 %}												
-								{% for i in range(0, video.note - 1) %}
-									<i class="fas fa-star"></i>
-									{% set k = i %}
-								{% endfor %}
-								{% endif %}	
-								
-								{% if video.note != 5 %}
-								
-								
-								{% for i in range(0, 5 - video.note - 1) %}
-								{% if i == 0 %}
-									{% set w = 1 %}
-								{% endif %}
-								{% if i == 1 %}
-									{% set w = 2 %}
-								{% endif %}
-								{% if i == 2 %}
-									{% set w = 3 %}
-								{% endif %}
-								{% if i == 3 %}
-									{% set w = 4 %}
-								{% endif %}
-								{% if i == 4 %}
-									{% set w = 5 %}
-								{% endif %}
-
-									<a href="{{ path('note_add', {'n': w , 'id' : video.id}) }}"><i class="fa fa-star-o">
-									
-								</i></a>
-								
-								{% endfor %}
-								{% endif %}
-
-							</td>
-							<td>
-								<a href="{{ path('video_deletep', {'id': video.id}) }}" class="btn btn-primary btn-round">Supprimer</a>
+								<a href="{{ path('panier_delete1', {'id': video.id}) }}" class="btn btn-primary btn-round">Supprimer</a>
 
 
 							</td>
 						</tr>
 					{% else %}
+						
+					{% endfor %}
+					{% else %}
 						<tr>
 							<td colspan="6">no records found</td>
 						</tr>
-					{% endfor %}
+					{% endif %}
+
 				</tbody>
 			</table>
-			{% if videos != NULL %}
+					<h3>La somme à payer : {{ somme }} TND </h3>
 
-				<h1>Somme à payer :
-					{{ somme }}
-					TND</h1>
-			{% endif %}
-
+					<a href="{{ path('commande_add') }}" class="btn btn-primary btn-round">Confirmer</a><br><br>
+			<a href="{{ path('video_index') }}" class="btn btn-primary btn-round">Back To List</a>
+			
 		</div>
 	</section>
 

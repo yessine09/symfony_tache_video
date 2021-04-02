@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\VideoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -43,9 +45,19 @@ class Video
     private $note;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Panier::class, inversedBy="idvid")
+     * @ORM\ManyToOne(targetEntity=Panier::class, inversedBy="idvid", cascade={"persist"})
      */
     private $panier;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Commande::class, inversedBy="videos" , cascade={"persist"})
+     */
+    private $commande;
+
+    public function __construct()
+    {
+        $this->commande = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +132,30 @@ class Video
     public function setPanier(?Panier $panier): self
     {
         $this->panier = $panier;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Commande[]
+     */
+    public function getCommande(): Collection
+    {
+        return $this->commande;
+    }
+
+    public function addCommande(Commande $commande): self
+    {
+        if (!$this->commande->contains($commande)) {
+            $this->commande[] = $commande;
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): self
+    {
+        $this->commande->removeElement($commande);
 
         return $this;
     }

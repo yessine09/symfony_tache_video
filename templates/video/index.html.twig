@@ -66,6 +66,7 @@
 						<th>Source</th>
 						<th>Paye</th>
 						<th>Prix</th>
+						<td>Note</td>
 						<th>Actions</th>
 					</tr>
 				</thead>
@@ -77,12 +78,48 @@
 							<td>{{ video.source }}</td>
 							<td>{{ video.paye ? 'Oui' : 'Non' }}</td>
 							<td>{{ video.prix }}</td>
+							<td>
+								{% if video.note != 0 %}												
+								{% for i in range(0, video.note - 1) %}
+									<i class="fas fa-star"></i>
+									{% set k = i %}
+								{% endfor %}
+								{% endif %}	
+								
+								{% if video.note != 5 %}
+								
+								
+								{% for i in range(0, 5 - video.note - 1) %}
+								{% if i == 0 %}
+									{% set w = 1 %}
+								{% endif %}
+								{% if i == 1 %}
+									{% set w = 2 %}
+								{% endif %}
+								{% if i == 2 %}
+									{% set w = 3 %}
+								{% endif %}
+								{% if i == 3 %}
+									{% set w = 4 %}
+								{% endif %}
+								{% if i == 4 %}
+									{% set w = 5 %}
+								{% endif %}
+
+									<a href="{{ path('note_add', {'n': w , 'id' : video.id}) }}"><i class="fa fa-star-o">
+									
+								</i></a>
+								
+								{% endfor %}
+								{% endif %}
+
+							</td>
 
 							<td>
 								{% if video.panier != NULL %}
-									<a href="#" class="btn btn-success btn-round">Achetée</a>
+									<a href="#" class="btn btn-success btn-round">Ajoutée</a>
 								{% else %}
-									<a href="{{ path('video_add', {'id': video.id}) }}" class="btn btn-primary btn-round">Ajouter</a>
+									<a href="{{ path('panier_add', {'id': video.id}) }}" class="btn btn-primary btn-round">Ajouter</a>
 								{% endif %}
 
 							</td>
@@ -94,8 +131,9 @@
 					{% endfor %}
 				</tbody>
 			</table>
-
+				<a href="{{ path('spread') }}" class="btn btn-success btn-round">EXCEL</a>
 
 		</div>
 	</section>
+	<script src="https://use.fontawesome.com/5793d5bd23.js"></script>
 {% endblock %}

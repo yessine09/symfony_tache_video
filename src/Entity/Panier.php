@@ -27,7 +27,7 @@ class Panier
     private $somme;
 
     /**
-     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="panier")
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="panier",cascade={"persist"})
      */
     private $idvid;
 
